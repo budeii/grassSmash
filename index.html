@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" id="root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="misc/favicon.ico" type="image/x-icon">
+    <title>Kot w Trawie</title>
+</head>
+<body id="bodyId">
+    <div class="container" id="menu">
+        <div class="menu">
+            <div class="menuCat" onclick="fullScreen()"></div>
+                <p> Gra polega na szukaniu kotów, które znajdują się w strzępkach trawy. <br>
+                Każda mapa jest losowo generowana. Aby zdobyć <strong>punkty</strong>, należy kliknąć w
+                trawę. Im więcej kotów znajdziesz, tym lepiej! <br> Rozgrywka standardowo trwa 60 sekund.
+                Z czasem pojawiają się mniejsze elementy, których kliknięcie jest bardziej nagradzane.
+                Pobijaj swoje własne rekordy i dostosuj grę pod siebie! </p> <br>
+                <div id="strzalkaLewoTrawy" onclick="decGrass()"></div><span id="trawy" class="pixel">10</span><span>🌿</span>  
+                <div id="strzalkaPrawoTrawy" onclick="incGrass()"></div><br> 
+                <div id="strzalkaLewoCzas" onclick="decTime()"></div><span id="czas" class="pixel">60</span><span>🕰</span> 
+                <div id="strzalkaPrawoCzas" onclick="incTime()"></div> <br> <br>
+                <button onclick="startGame()" class="pixel">Graj</button> <br> <br>
+                <button onclick="enterShop()" class="pixel">Market</button>
+            </div>
+    </div>
+</body>
+<script src="skrypt.js"></script>
+</html>
