@@ -4,10 +4,13 @@ let trawy = 0,
   wynik = 0,
   wynikCombo = 20,
   onlyOnce = 0,
+  cats = 0,
+  isMenu = true,
   gameMenu = document.querySelector(".menu"),
-  gameContainer = document.getElementById("menu");
-
-  const fullScreen = () => {
+  gameContainer = document.getElementById("menu"),
+  text,
+  timeout;
+const fullScreen = () => {
   if (document.fullscreenEnabled) {
     document.getElementById("root").requestFullscreen();
 }
@@ -17,6 +20,60 @@ let trawy = 0,
   if (localStorage.getItem("coins")) {}
     else {
       localStorage.setItem("coins", "0");
+ }
+
+
+  if (localStorage.getItem("cats")) {}
+  else {
+    localStorage.setItem("cats", "0");
+}
+
+const dialoguesMenu = () => {
+  switch (Math.floor(Math.random() * 4)) {
+    case 0:
+    text = "Świeżo skoszona trawa... Wróciłeś!";
+    break;
+    case 1:
+    text = "Na moje kudły i świętą kocimiętkę! W końcu Cię widzę.."
+    break;
+    case 2:
+    text = "Bob Marley? W porównaniu do Ciebie to wydmuszka."
+    break;
+    case 3:
+    text = "Jakiego jestem gatunku? Jestem kotem egipskim. Nie, nie dam namiarów na fryzjera." 
+    break;
+    }
+}
+
+const dialoguesShop = () => {
+  switch (Math.floor(Math.random() * 12)) {
+    case 0:
+    text = "W PRZECIWIEŃSTWIE DO KOCICH DRESÓW MY PIRACI CHCEMY, ŻEBYŚ SIĘ INTERSOWAŁ!"
+    break;
+    case 1:
+    text = "KTO JEST W KOCIM GANGU TO W KOCIM GANGU ZOSTAJE!"
+    break;
+    case 2:
+    text = "KRAKEN? POTWÓR SPAGHETTI BYŁ ZDECYDOWANIE SMACZNIEJSZY!"
+    break;
+    case 3:
+    text = "KUPUJ ŚMIAŁO, SFINANSUJESZ MI NOWĄ OPASKĘ!"
+    break;
+    case 4:
+    text = "JAK JA UWIELBIAM MONOPOL.."
+    break;
+    default:
+    text = "ARRRRRR~!"
+  }
+}
+
+//sprawdzenie, czy gra uruchamiana jest po raz pierwszy
+  if (localStorage.getItem("started")) {
+    dialoguesMenu();
+  }
+  else {
+    text = "Witaj po raz pierwszy!!!";
+    localStorage.setItem("started", true);
   }
 
 const incGrass = () => {
@@ -70,7 +127,7 @@ const grassTrack = (trawy) => {
 //losowe koordynaty, na których będą pojawiać się trawy
 const randomPixel = () => {
   let width = document.getElementById("myCanvas").offsetWidth - 50,
-    height = document.getElementById("myCanvas").offsetHeight - 100;
+    height = document.getElementById("myCanvas").offsetHeight - 120;
   let random_width = Math.floor(Math.random() * width),
     random_height = Math.floor(Math.random() * height);
   return (values = [random_width, random_height]);
@@ -124,21 +181,27 @@ const fitGrass = (values) => {
 
 //animacja kota generuje się w tym samym miejscu, w którym była wcześniej kliknięta trawa
 const addCat = (number) => {
-let catPlace = document.getElementById(number);
-let catHeight = catPlace.style.top,
-catWidth = catPlace.style.left,
-catId = `${"cat" + number}`,
-canva = document.getElementById("myCanvas");
-catStyle = `left:${catWidth};top:${catHeight};position:absolute;`;
-let catAnimation = document.createElement("div");
-catAnimation.setAttribute("style", catStyle);
-catAnimation.setAttribute("id", catId);
-catAnimation.setAttribute("class", "cat");
-canva.appendChild(catAnimation);
-setTimeout(function() {
-  if (document.getElementById)
-  deleteElementById(catId);
-}, 1000)
+  if ((Math.floor(Math.random() * 101)) < 5) {
+    let catPlace = document.getElementById(number);
+    let catHeight = catPlace.style.top,
+    catWidth = catPlace.style.left,
+    catId = `${"cat" + number}`,
+    canva = document.getElementById("myCanvas"),
+    catScore = document.getElementById("theCats"),
+    catStyle = `left:${catWidth};top:${catHeight};position:absolute;`;
+    let catAnimation = document.createElement("div");
+    catAnimation.setAttribute("style", catStyle);
+    catAnimation.setAttribute("id", catId);
+    catAnimation.setAttribute("class", "cat");
+    canva.appendChild(catAnimation);
+    cats++;
+    catScore.innerHTML = `${cats + "🐱"}`;
+    setTimeout(function() {
+      if (document.getElementById(catId)) {
+      deleteElementById(catId);
+      }
+    }, 600)
+  }
 }
 
 //funkcja umożliwiająca nadanie funkcjonalności dynamicznie pojawiającym się trawom
@@ -146,38 +209,51 @@ const addPoints = () => {
   document.getElementById("myCanvas").addEventListener("click", function (e) {
     if (e.target && e.target.matches("div.points")) {
       let Id = e.target.id;
-      addCat(Id);
-      deleteElementById(Id);
-      //dodanie punktów do wyniku przy kliknięciu
+      addCat(Id); //dodanie punktów do wyniku przy kliknięciu
       wynik++;
+      deleteElementById(Id);
       let score = document.getElementById("theScore");
-      score.innerHTML = `${wynik + "🐈"}`;
+      score.innerHTML = `${wynik + "🌿"}`;
       grassTrack(trawy);
       grassSpawnContinue();
     }
   });
 };
 
+
+let gameSound = new Audio("sounds/cattalkshop.mp3");
+
+
+//funkcja wypisująca dialog
+let i = 0,
+menuCat = document.getElementById("menuCat");
+function typing() {
+  if ((i<text.length)) {
+    document.querySelector(".dialogueText").innerHTML += text.charAt(i);
+    i++
+    timeout = setTimeout(typing,50);
+  }
+  else {
+    i = 0;
+  }
+}
+
+
 //dodanie waluty po każdej rozgrywce. Większa ilość traw ma słabszy przelicznik.
 const addCoins = () => {
-let coinsSession = wynik,
-percent = 0.01;
-    switch (window.trawy) {
-        case "30":
-            percent*= 15;
-            coinsSession = (coinsSession - (coinsSession * percent)) / 5;
-            break;
-        case "20":
-            percent*= 7.5;
-            coinsSession = (coinsSession - (coinsSession * percent)) / 5;
-            break;
-        case "10":
-            coinsSession /= 5;
-            break;
-    }
-    localStorage.setItem("coins", `${Math.floor(Number(localStorage.getItem("coins")) + coinsSession)}`);
-    wynik = 0;
-    return Math.floor(coinsSession);
+let coinsSession = wynik;
+let trawyMultip = 1 - (window.trawy * 0.01);
+  coinsSession *= trawyMultip;
+  localStorage.setItem("coins", `${Math.floor(Number(localStorage.getItem("coins")) + coinsSession)}`);
+  wynik = 0;
+  return Math.floor(coinsSession);;
+}
+
+const addCatValue = () => {
+  catValue = cats;
+  localStorage.setItem("cats", `${Number(localStorage.getItem("cats")) + cats}`);
+  cats = 0;
+  return catValue;
 }
 
 const interval = (x) => {
@@ -196,13 +272,16 @@ const interval = (x) => {
 
 //powrót do menu po zakończonej grze
 const backToMenuResults = () => {
+  clearTimeout(timeout);
   document.getElementById("backToMenu").addEventListener("click", function (e){
   if (e.target) {
   endScore.remove();
   endCoins.remove();
+  endCats.remove();
   backToMenu.remove();  
   document.body.appendChild(gameContainer);
   gameContainer.appendChild(gameMenu);
+  document.querySelector(".dialogueText").innerHTML = "";
   gameMenu.removeAttribute("style")
   }
 })
@@ -211,6 +290,7 @@ const backToMenuResults = () => {
 
 //powrót do menu z okna sklepu
 const backToMenuShop = () => {
+  clearInterval(timeout);
   let shop = document.querySelector("div.menuSklep");
   let interval_menu = setInterval(function() {
     value+= 45;
@@ -221,28 +301,46 @@ const backToMenuShop = () => {
     shop.remove();
     let menu = document.body.appendChild(gameMenu);
     interval(menu);
+    document.querySelector(".dialogueText").innerHTML = "";
+    typing();
   }, 1000)
 }
 
 //funkcja tworząca sklep i animację, która występuje przy wejściu 
 const createShop = () => {
   let shop = document.createElement("div"),
-  writtingTop = document.createElement("h1"),
+  money = document.createElement("h1"),
+  catValue = document.createElement("h1"),
   button = document.createElement("button"),
-  catDiv = document.createElement("div");
+  catDiv = document.createElement("div"),
+  catDialogue = document.createElement("div"),
+  catText = document.createElement("p");
   shop.setAttribute("class", "menuSklep");
   shop.setAttribute("id", "sklep");
-  writtingTop.setAttribute("style", "font-family:\"pixel\";font-size:50px");
-  catDiv.setAttribute("class", "menuCat");
-  writtingTop.innerText = localStorage.getItem("coins") + "💰";
+  money.setAttribute("style", "font-family:\"pixel\";font-size:50px;margin-top:175px;line-height:20px");
+  catValue.setAttribute("style", "font-family:\"pixel\";font-size:50px;");
+  catDiv.setAttribute("class", "sklep");
+  catDialogue.setAttribute("class", "dialogueBox");
+  catText.setAttribute("class", "dialogueText");
+  button.setAttribute("class", "shopButton")
+  money.innerText = localStorage.getItem("coins") + "💰";
+  catValue.innerText = localStorage.getItem("cats") + "🐱";
   button.innerText = "Menu";
   document.body.appendChild(shop);
   shop.appendChild(catDiv);
-  shop.appendChild(writtingTop);
+  shop.appendChild(catDialogue);
+  shop.appendChild(money);
+  shop.appendChild(catValue);
+  catDialogue.appendChild(catText);
   shop.appendChild(button);
   interval(shop);
+  clearInterval(timeout);
+  dialoguesShop();
+  typing();
   shop.addEventListener("click", function(e){
     if (e.target && e.target.matches("button")) {
+      dialoguesMenu();
+      i = text.length;
       backToMenuShop();
     }
   })
@@ -271,7 +369,30 @@ const enterShop = () => {
   }, 1000)
 }
 
-
+//funkcja kończąca grę
+const endGame = () => {
+  myCanvas.remove();
+  myScoreboard.remove();
+  let endScore = document.createElement("h1"),
+    endCoins = document.createElement("h1"),
+    backToMenu = document.createElement("h1");
+    endCats = document.createElement("h1");
+  endScore.setAttribute("id", "endScore");
+  endCoins.setAttribute("id", "endCoins");
+  backToMenu.setAttribute("id", "backToMenu");
+  endCats.setAttribute("id", "endCats");
+  endScore.innerText = wynik + "🌿";
+  endCoins.innerText = addCoins() + "💰";
+  endCats.innerText = addCatValue() + "🐱";
+  backToMenu.innerText = "Powrót do menu!";
+  document.body.appendChild(endScore);
+  document.body.appendChild(endCoins);
+  document.body.appendChild(endCats);
+  document.body.appendChild(backToMenu);
+    setTimeout(function(){
+    backToMenu.addEventListener("click", backToMenuResults());
+    }, 3000)
+}
 //implementacja traw wraz z koordynatami na planszę
 const grassSpawn = (array) => {
   for (let each of array) {
@@ -289,22 +410,7 @@ const grassSpawn = (array) => {
   }
   addPoints();
   setTimeout(function () {;  //Usuniecie elementów gry po wybranym w menu czasie, koniec gry
-    myCanvas.remove();
-    myScoreboard.remove();
-    let endScore = document.createElement("h1"),
-      endCoins = document.createElement("h1"),
-      backToMenu = document.createElement("div");
-    endScore.setAttribute("id", "endScore");
-    endCoins.setAttribute("id", "endCoins");
-    backToMenu.setAttribute("id", "backToMenu");
-    endScore.innerText = wynik + "🐈";
-    endCoins.innerText = addCoins() + "💰";
-    document.body.appendChild(endScore);
-    document.body.appendChild(endCoins);
-    document.body.appendChild(backToMenu);
-      setTimeout(function(){
-      backToMenu.addEventListener("click", backToMenuResults());
-      }, 3000)
+  endGame();
 }, czas * 1000);
 };
 
@@ -324,23 +430,51 @@ const timerFunction = (czas) => {
 
 //wymuszenie na graczu wybrania poziomu trudności w menu
 const startGame = () => {
+  if (document.getElementById("trawy") && document.getElementById("czas")) {
   trawy = document.getElementById("trawy").innerText,
   czas = document.getElementById("czas").innerText;
+  }
+  else {
+    trawy = 10;
+    czas = 30;
+  }
   menu = document.querySelector(".menu");
   menu.removeAttribute("style");
   menu.remove();
   gameCreation();
 }
 
+const playFreeplay = () => {
+  let innerHTML = `<div id="strzalkaLewoTrawy" onclick="decGrass()"></div><span id="trawy" class="pixel">10</span><span>🌿</span>
+                <div id="strzalkaPrawoTrawy" onclick="incGrass()"></div><br> 
+                <div id="strzalkaLewoCzas" onclick="decTime()"></div><span id="czas" class="pixel">60</span><span>🕰</span> 
+                <div id="strzalkaPrawoCzas" onclick="incTime()"></div> <br> <br>
+                <button onclick="startGame()" class="pixel">Graj</button> <br> <br>
+                <button onclick="enterShop()" class="pixel">Market</button>`,
+  board = document.getElementById("board");
+  document.querySelector(".marginDiv").remove();
+  board.querySelector("button").remove();
+  board.querySelector("button").remove();
+  board.querySelector("button").remove();
+  while(document.querySelector("br")) {
+      let element = document.querySelector("br");
+      element.remove();
+  }
+    board.innerHTML = board.innerHTML + innerHTML;
+  }
+
 //utworzenie elementów gry
 const gameCreation = () => {
   let canva = document.createElement("div"),
-    score = document.createElement("h1"),
     scoreboard = document.createElement("div"),
-    timer = document.createElement("h1");
+    score = document.createElement("h1"),
+    timer = document.createElement("h1"),
+    cats = document.createElement("h1");
     window.trawy = trawy; //wartość trawy ulega zmianie, pomocnicza zmienna zapamiętuje pierwotną wartość
   score.setAttribute("id", "theScore");
-  score.innerHTML = wynik + "🐈";
+  score.innerHTML = 0 + "🌿";
+  cats.setAttribute("id", "theCats");
+  cats.innerHTML = 0 + "🐱";
   scoreboard.setAttribute("id", "myScoreboard");
   canva.setAttribute("id", "myCanvas");
   timer.setAttribute("id", "myTimer");
@@ -348,6 +482,7 @@ const gameCreation = () => {
   document.body.appendChild(canva);
   document.body.appendChild(scoreboard);
   scoreboard.appendChild(score);
+  scoreboard.appendChild(cats);
   scoreboard.appendChild(timer);
   timerFunction(czas);
   grassSpawn(grassTrack(trawy));

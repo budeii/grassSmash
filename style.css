@@ -1,16 +1,11 @@
 @font-face {
-    font-family: tekst;
-    src: url(czcionki/IndieFlower-Regular.ttf)
-}
-
-@font-face {
-    font-family: logo;
-    src: url(czcionki/Pacifico-Regular.ttf)
-}
-
-@font-face {
     font-family: pixel;
     src: url(czcionki/VCR_OSD_MONO_1.001.ttf)
+}
+
+@font-face {
+    font-family: pixelDialogue;
+    src: url(czcionki/Pixellari.ttf)
 }
 
 @keyframes combo {
@@ -25,14 +20,14 @@
 }
 
 @keyframes grassAnimation {
-    12.5% {background-image: url(misc/grass1.png);}
-    25% {background-image: url(misc/grass2.png);}
-    37.5% {background-image: url(misc/grass3.png);}
-    50% {background-image: url(misc/grass4.png);}
-    62.5% {background-image: url(misc/grass5.png);}
-    75% {background-image: url(misc/grass6.png);}
-    87.5% {background-image: url(misc/grass7.png);}
-    100% {background-image: url(misc/grass8.png);}
+    12.5% {background-image: url(misc/grass1new.png);}
+    25% {background-image: url(misc/grass2new.png);}
+    37.5% {background-image: url(misc/grass3new.png);}
+    50% {background-image: url(misc/grass4new.png);}
+    62.5% {background-image: url(misc/grass5new.png);}
+    75% {background-image: url(misc/grass6new.png);}
+    87.5% {background-image: url(misc/grass7new.png);}
+    100% {background-image: url(misc/grass8new.png);}
 }
 
 @keyframes grassAnimationSmall {
@@ -88,6 +83,21 @@
     100% {background-image: url(misc/strzalkaPrawa1.png)}
 }
 
+@keyframes catAppear {
+    0% {background-image: url(misc/catappear2.png)}
+    33% {background-image: url(misc/catappear3.png)}
+    66% {background-image: url(misc/catappear4.png)}
+    100% {background-image: url(misc/menucat1.png)}
+}
+
+@keyframes catAppearShop {
+    0% {background-image: url(misc/shop.png)}
+    25% {background-image: url(misc/shopcat4.png)}
+    50% {background-image: url(misc/shopcat3.png)}
+    75% {background-image: url(misc/shopcat2.png)}
+    100% {background-image: url(misc/shopcat1.png)}
+}
+
 html, body
 {
     overflow: hidden;
@@ -95,13 +105,17 @@ html, body
 }
 
 body {
-    background:rgb(6, 136, 45);
+    background:rgb(224, 185, 138);
     margin:0;
+}
+
+.bodyEnd {
+    background:url()
 }
 
 button {
     background-color: rgb(6, 136, 45);
-    border: 4px double #ffffff;
+    border: 4px solid #000000;
     color: #eeeeee;
     text-align: center;
     font-size: 35px;
@@ -151,38 +165,78 @@ span {
     margin-top: 1%;
     height: 850px;
     width: 750px;
+    padding:14px;
     font-size:20px;
-    background: white;
+    background-color: rgb(224, 185, 138);
+    background-image: url(misc/Ramka.png);
     text-align:center;
     font-family:tekst;
-    border: 10px black solid;
 }
 
 .menuSklep {
-        position:absolute;
-        margin-top: 1%;
-        height: 750px;
-        width: 750px;
-        font-size:20px;
-        background: white;
-        text-align:center;
-        font-family:tekst;
-        border: 10px black solid;
+    position:absolute;
+    margin-top: 1%;
+    height: 850px;
+    width: 750px;
+    padding:14px;
+    font-size:20px;
+    background: rgb(224, 185, 138);
+    background-image: url(misc/Ramka.png);
+    text-align:center;
+    font-family:tekst;
 }
 
-.swapButton {
-    float:left;
-    width: 50px;
-    height: 100px;
-    background:red;
-    margin-right:5px;
+
+
+.shopButton {
+    margin-top:50px;
+}
+
+.dialogueBox {
+    position: absolute;
+    height:125px;
+    width:750px;
+    font-family:pixelDialogue;
+    font-size: 25px;
+    background-image:url(misc/Dialog.png);
+    text-align:auto;
+}
+
+.marginDiv {
+    width: 750px;
+    height: 150px;
 }
 
 .menuCat {
     position:relative;
     height:250px;
     width:100%;
-    background-color: red;
+    animation: 0;
+}
+
+.menuCatAppear {
+    margin:0;
+    position:relative;
+    height:250px;
+    width:100%;
+    animation: catAppear 1s forwards;
+}
+
+.menuCatTalk {
+    margin:0;
+    position:relative;
+    height:250px;
+    width:100%;
+    animation: catTalk 0.2s forwards infinite;
+}
+
+
+.sklep {
+    margin:0;
+    position:relative;
+    height:250px;
+    width:100%;
+    animation: catAppearShop 1s forwards 
 }
 
 .points {
@@ -196,6 +250,133 @@ span {
     height:100px;
     animation: catAnimation 0.2s forwards;
     pointer-events: none;
+}
+
+.points:hover {
+    transform: scale(1.2);
+    transition: all 0.1s;
+}
+
+#myCanvas {
+    position: absolute;
+    top: 2.5%; left: 1%; right:5%; bottom: 2.5%;
+    width: 70%; height: 95%;
+    background:url(misc/gamebackground.png);
+    border: 0.3vw rgb(78, 53, 25) solid;
+}
+
+#myScoreboard {
+    position:relative;
+    left: 74%; right: 5%; top: 2.5%; bottom: 2,5%; 
+    margin-top:1.5%;
+    width: 23%; height: 95%;
+    background: url(misc/scoreboard.png);
+    border: 0.3vw rgb(78, 53, 25) solid;
+}
+
+#theScore {
+    color: black;
+    text-shadow: -5px 0 white, 0 5px white, 5px 0 white, 0 -5px white;
+    font-size:5vw;
+    font-family: pixel;
+    text-align:center;
+}
+
+#theCats {
+    color: black;
+    text-shadow: -5px 0 white, 0 5px white, 5px 0 white, 0 -5px white;
+    font-size:5vw;
+    font-family: pixel;
+    text-align:center;
+}
+
+#myTimer {
+    color: black;
+    text-shadow: -5px 0 white, 0 5px white, 5px 0 white, 0 -5px white;
+    font-size:5vw;
+    font-family: pixel;
+    text-align:center;
+}
+
+#endScore {
+    color: black;
+    font-size:4vw;
+    font-family: pixel;
+    text-align:center;
+    background-color: rgb(255, 208, 154);
+    animation-name: end;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+}
+
+#endCoins {
+    color: black;
+    font-size:4vw;
+    font-family: pixel;
+    text-align:center;
+    opacity:0;
+    background-color: rgb(255, 208, 154);
+    animation-name: end;
+    animation-delay: 1s;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+}
+
+#endCats {
+    color: black;
+    font-size:4vw;
+    font-family: pixel;
+    text-align:center;
+    opacity:0;
+    background-color: rgb(255, 208, 154);
+    animation-name: end;
+    animation-delay: 2s;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+}
+
+#backToMenu {
+    opacity:0;
+    font-size: 4vw;
+    font-family: pixel;
+    text-align:center;
+    background-color: rgb(255, 208, 154);
+    animation-name: end;
+    animation-delay: 3s;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+}
+
+#strzalkaPrawoTrawy {
+    margin-top:175px;
+    animation: strzalkaPrawo 1s infinite forwards;
+    width:50px;
+    height:50px;
+    margin-left:35px;
+    display:inline-block;
+}
+
+#strzalkaLewoTrawy {
+    animation: strzalkaLewo 1s infinite forwards;
+    width:50px;
+    height:50px;
+    margin-right:35px;
+    display:inline-block;
+}
+#strzalkaPrawoCzas {
+    animation: strzalkaPrawo 1s infinite forwards;
+    width:50px;
+    height:50px;
+    margin-left:35px;
+    display:inline-block;
+}
+
+#strzalkaLewoCzas {
+    animation: strzalkaLewo 1s infinite forwards;
+    width:50px;
+    height:50px;
+    margin-right:35px;
+    display:inline-block;
 }
 
 /* Utrudnienie rozgrywki dla cwaniaków, którzy używają niższej rozdzielczości ;--)*/
@@ -242,107 +423,4 @@ span {
         pointer-events: none;
     }
     
-}
-
-.points:hover {
-    transform: scale(1.1);
-    transition: all 0.1s;
-}
-
-#myCanvas {
-    position: absolute;
-    top: 2.5%; left: 1%; right:5%; bottom: 2.5%;
-    width: 70%; height: 95%;
-    background:rgb(255, 208, 154);
-    border-radius: 30px;
-    border: 0.2vw rgb(177, 145, 108) solid;
-}
-
-#myScoreboard {
-    position:relative;
-    left: 74%; right: 5%; top: 2.5%; bottom: 2,5%; 
-    margin-top:1.5%;
-    width: 23%; height: 95%;
-    background:rgb(255, 208, 154);
-    border: 0.2vw rgb(177, 145, 108) solid;
-}
-
-#theScore {
-    color: black;
-    font-size:5vw;
-    font-family: pixel;
-    text-align:center;
-    transition: background 1s;
-}
-
-#myTimer {
-    color: black;
-    font-size:5vw;
-    font-family: pixel;
-    text-align:center;
-}
-
-#endScore {
-    color: black;
-    font-size:4vw;
-    font-family: pixel;
-    text-align:center;
-    background-color: rgb(255, 208, 154);
-    animation-name: end;
-    animation-duration: 1.5s;
-    animation-fill-mode: forwards;
-}
-
-#endCoins {
-    color: black;
-    font-size:4vw;
-    font-family: pixel;
-    text-align:center;
-    opacity:0;
-    background-color: rgb(255, 208, 154);
-    animation-name: end;
-    animation-delay: 1s;
-    animation-duration: 1.5s;
-    animation-fill-mode: forwards;
-}
-
-#backToMenu {
-    opacity:0;
-    height: 7vw;
-    background-color: rgb(255, 208, 154);
-    animation-name: end;
-    animation-delay: 2s;
-    animation-duration: 1.5s;
-    animation-fill-mode: forwards;
-}
-
-#strzalkaPrawoTrawy {
-    animation: strzalkaPrawo 1s infinite forwards;
-    width:50px;
-    height:50px;
-    margin-left:35px;
-    display:inline-block;
-}
-
-#strzalkaLewoTrawy {
-    animation: strzalkaLewo 1s infinite forwards;
-    width:50px;
-    height:50px;
-    margin-right:35px;
-    display:inline-block;
-}
-#strzalkaPrawoCzas {
-    animation: strzalkaPrawo 1s infinite forwards;
-    width:50px;
-    height:50px;
-    margin-left:35px;
-    display:inline-block;
-}
-
-#strzalkaLewoCzas {
-    animation: strzalkaLewo 1s infinite forwards;
-    width:50px;
-    height:50px;
-    margin-right:35px;
-    display:inline-block;
 }
