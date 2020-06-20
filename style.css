@@ -8,15 +8,25 @@
     src: url(czcionki/Pixellari.ttf)
 }
 
-@keyframes combo {
-    0% {}
-    50% {background:rgb(108, 0, 117);}
-    100% {}
-}
-
 @keyframes end {
     0% {opacity:0}
     100% {opacity:1}
+}
+
+@keyframes dogEnemyRunLeft {
+    0% {background-image: url(misc/dog/dogRunLeft.png);}
+    25% {background-image: url(misc/dog/dogRunLeft2.png);}
+    50% {background-image: url(misc/dog/dogRunLeft3.png);}
+    75% {background-image: url(misc/dog/dogRunLeft2.png);}
+    100% {background-image: url(misc/dog/dogRunLeft.png);}
+}
+
+@keyframes dogEnemyRunRight {
+    0% {background-image: url(misc/dog/dogRunRight.png);}
+    25% {background-image: url(misc/dog/dogRunRight2.png);}
+    50% {background-image: url(misc/dog/dogRunRight3.png);}
+    75% {background-image: url(misc/dog/dogRunRight2.png);}
+    100% {background-image: url(misc/dog/dogRunRight.png);}
 }
 
 @keyframes grassAnimation {
@@ -98,6 +108,13 @@
     100% {background-image: url(misc/shopcat1.png)}
 }
 
+@keyframes catTalk {
+    0% {background-image: url(misc/menucat1.png)}
+    33% {background-image: url(misc/menucat1.png)}
+    66% {background-image: url(misc/menucat2.png)}
+    100% {background-image: url(misc/menucat3.png)} 
+}
+
 html, body
 {
     overflow: hidden;
@@ -105,7 +122,7 @@ html, body
 }
 
 body {
-    background:rgb(224, 185, 138);
+    background:url(misc/background5.png);
     margin:0;
 }
 
@@ -120,7 +137,7 @@ button {
     text-align: center;
     font-size: 35px;
     width: 300px;
-    height: 75px;
+    height: 70px;
     font-family: pixel;
     cursor: pointer;
     transition: background-color 0.5s;
@@ -186,10 +203,67 @@ span {
     font-family:tekst;
 }
 
+.menuPotion {
+    margin-top:90px;
+    margin-left:22px;
+    position:absolute;
+    display:flex;
+    justify-content:space-between;
+    flex-direction: row;
+}
+
+.greenPotion {
+    border: rgb(71, 55, 9) 10px solid;
+    width:200px;
+    height:200px;
+    background: url(misc/greenpotion.png);
+    transition: background 0.1s;
+}
+
+.greenPotion:hover {
+    background: url(misc/greenpotionselect.png);
+    transition: background 0.1s;
+}
+
+.orangePotion {
+    margin-left:22px;
+    border: rgb(71, 55, 9) 10px solid;
+    width:200px;
+    height:200px;
+    background: url(misc/orangepotion.png);
+    transition: background 0.1s;
+}
+
+.orangePotion:hover {
+    background: url(misc/orangepotionselect.png);
+    transition: background 0.1s;
+}
+
+.purplePotion {
+    margin-left:22px;
+    border: rgb(71, 55, 9) 10px solid;
+    width:200px;
+    height:200px;
+    background: url(misc/purplepotion.png);
+    transition: background 0.1s;
+}
+
+.purplePotion:hover {
+    background: url(misc/purplepotionselect.png);
+    transition: background 0.1s;
+}
 
 
-.shopButton {
-    margin-top:50px;
+.enemyRunLeft {
+    animation: dogEnemyRunLeft 0.5s infinite;
+}
+
+.enemyRunRight {
+    animation: dogEnemyRunRight 0.5s infinite;
+}
+
+.enemyGreenPotion {
+    background-image: url(misc/dog/dogGreenPotion.png);
 }
 
 .dialogueBox {
@@ -207,11 +281,11 @@ span {
     height: 150px;
 }
 
-.menuCat {
+.menuCatStatic {
     position:relative;
     height:250px;
     width:100%;
-    animation: 0;
+    background: url(misc/menucat1.png)
 }
 
 .menuCatAppear {
@@ -227,7 +301,15 @@ span {
     position:relative;
     height:250px;
     width:100%;
-    animation: catTalk 0.2s forwards infinite;
+    animation: catTalk 0.2s infinite;
+}
+
+.menuCatNone {
+    margin:0;
+    position:relative;
+    height:250px;
+    width:100%;
+    background: url(misc/catappear2.png)
 }
 
 
@@ -257,21 +339,69 @@ span {
     transition: all 0.1s;
 }
 
+#dogEnemy {
+    position:absolute;
+    width:100px;
+    height:100px;
+}
+
 #myCanvas {
     position: absolute;
-    top: 2.5%; left: 1%; right:5%; bottom: 2.5%;
+    top: 2.5%; left: 1%; right:5%;
     width: 70%; height: 95%;
     background:url(misc/gamebackground.png);
     border: 0.3vw rgb(78, 53, 25) solid;
 }
 
 #myScoreboard {
-    position:relative;
-    left: 74%; right: 5%; top: 2.5%; bottom: 2,5%; 
-    margin-top:1.5%;
-    width: 23%; height: 95%;
+    position:absolute;
+    left: 74%; top: 2.5%; right:5%;
+    width: 23%; height: 65%;
     background: url(misc/scoreboard.png);
     border: 0.3vw rgb(78, 53, 25) solid;
+}
+
+#gameBackToMenu {
+    position:absolute;
+    left: 74%; top: 87.5%; right:5%;
+    width: 23%; height: 10%;
+    background: url(misc/scoreboard.png);
+    border: 0.3vw rgb(78, 53, 25) solid;
+    color: black;
+    text-shadow: -5px 0 white, 0 5px white, 5px 0 white, 0 -5px white;
+    font-size:5vw;
+    font-family: pixel;
+    text-align:center;
+}
+
+#gamePotionStatus {
+    position:absolute;
+    display:flex;
+    justify-content: space-evenly;
+    left: 74%; top: 72.5%; right:5%;
+    width: 23%; height: 10%;
+    background: url(misc/scoreboard.png);
+    border: 0.3vw rgb(78, 53, 25) solid;
+    color: black;
+}
+
+#greenPotion {
+    margin:5px;
+    text-shadow: -5px 0 greenyellow, 0 5px greenyellow, 5px 0 greenyellow, 0 -5px greenyellow;
+    font-size:5vw;
+    font-family: pixel;
+}
+#orangePotion {
+    margin:5px;
+    text-shadow: -5px 0 orange, 0 5px orange, 5px 0 orange, 0 -5px orange;
+    font-size:5vw;
+    font-family: pixel;
+}
+#purplePotion {
+    margin:5px;
+    text-shadow: -5px 0 magenta, 0 5px magenta, 5px 0 magenta, 0 -5px magenta;
+    font-size:5vw;
+    font-family: pixel;
 }
 
 #theScore {
@@ -303,9 +433,9 @@ span {
     font-size:4vw;
     font-family: pixel;
     text-align:center;
-    background-color: rgb(255, 208, 154);
+    background-color: rgb(190, 246, 164);
     animation-name: end;
-    animation-duration: 1.5s;
+    animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
 
@@ -315,10 +445,10 @@ span {
     font-family: pixel;
     text-align:center;
     opacity:0;
-    background-color: rgb(255, 208, 154);
+    background-color: rgb(255, 248, 154);
     animation-name: end;
     animation-delay: 1s;
-    animation-duration: 1.5s;
+    animation-duration: 1s;
     animation-fill-mode: forwards;
 }
 
@@ -328,27 +458,27 @@ span {
     font-family: pixel;
     text-align:center;
     opacity:0;
-    background-color: rgb(255, 208, 154);
+    background-color: rgb(255, 180, 110);
     animation-name: end;
     animation-delay: 2s;
-    animation-duration: 1.5s;
+    animation-duration: 1s;
     animation-fill-mode: forwards;
 }
 
 #backToMenu {
     opacity:0;
-    font-size: 4vw;
+    font-size: 6vw;
     font-family: pixel;
     text-align:center;
-    background-color: rgb(255, 208, 154);
+    background-color: rgb(255, 206, 253);
     animation-name: end;
     animation-delay: 3s;
-    animation-duration: 1.5s;
+    animation-duration: 1s;
     animation-fill-mode: forwards;
 }
 
 #strzalkaPrawoTrawy {
-    margin-top:175px;
+    margin-top:150px;
     animation: strzalkaPrawo 1s infinite forwards;
     width:50px;
     height:50px;
@@ -372,6 +502,22 @@ span {
 }
 
 #strzalkaLewoCzas {
+    animation: strzalkaLewo 1s infinite forwards;
+    width:50px;
+    height:50px;
+    margin-right:35px;
+    display:inline-block;
+}
+
+#strzalkaPrawoPies {
+    animation: strzalkaPrawo 1s infinite forwards;
+    width:50px;
+    height:50px;
+    margin-left:35px;
+    display:inline-block;
+}
+
+#strzalkaLewoPies {
     animation: strzalkaLewo 1s infinite forwards;
     width:50px;
     height:50px;
