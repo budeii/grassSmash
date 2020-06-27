@@ -39,6 +39,16 @@
     87.5% {background-image: url(misc/grass7new.png);}
     100% {background-image: url(misc/grass8new.png);}
 }
+@keyframes grassAnimationDesert {
+    12.5% {background-image: url(misc/grass1desert.png);}
+    25% {background-image: url(misc/grass2desert.png);}
+    37.5% {background-image: url(misc/grass3desert.png);}
+    50% {background-image: url(misc/grass4desert.png);}
+    62.5% {background-image: url(misc/grass5desert.png);}
+    75% {background-image: url(misc/grass6desert.png);}
+    87.5% {background-image: url(misc/grass7desert.png);}
+    100% {background-image: url(misc/grass8desert.png);}
+}
 
 @keyframes grassAnimationSmall {
     12.5% {background-image: url(misc/misc_old/grassSmall1.png);}
@@ -255,15 +265,19 @@ span {
 
 
 .enemyRunLeft {
-    animation: dogEnemyRunLeft 0.5s infinite;
+    animation: dogEnemyRunLeft 0.2s infinite;
 }
 
 .enemyRunRight {
-    animation: dogEnemyRunRight 0.5s infinite;
+    animation: dogEnemyRunRight 0.2s infinite;
 }
 
 .enemyGreenPotion {
     background-image: url(misc/dog/dogGreenPotion.png);
+}
+
+.enemyPurplePotion {
+    background-image: url(misc/dog/dogPurplePotion.png);
 }
 
 .dialogueBox {
@@ -324,7 +338,13 @@ span {
 .points {
     width:100px;
     height:100px;
-    animation: grassAnimation 1s forwards;
+    animation: grassAnimation 0.8s forwards;
+}
+
+.pointsDesert {
+    width:100px;
+    height:100px;
+    animation: grassAnimationDesert 1.6s forwards;
 }
 
 .cat {
@@ -351,6 +371,10 @@ span {
     width: 70%; height: 95%;
     background:url(misc/gamebackground.png);
     border: 0.3vw rgb(78, 53, 25) solid;
+}
+
+.desertBackground {
+    background-image:url(misc/gamebackgrounddesert.png);
 }
 
 #myScoreboard {
